@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="Test Multi Local"
-run/main_scene="res://test_world.tscn"
+run/main_scene="res://scenes/test_world.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://assets/icon.svg"
 
 [autoload]
 
-JoyInput="*res://joy_input.gd"
+JoyInput="*res://scripts/joy_input.gd"
 
 [dotnet]
 

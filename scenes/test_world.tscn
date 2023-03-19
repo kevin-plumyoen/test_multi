@@ -1,30 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://lp2muq3kihi3"]
+[gd_scene load_steps=6 format=3 uid="uid://coglawsglfn5k"]
 
-[ext_resource type="PackedScene" uid="uid://cck7clkc37xiy" path="res://player_spawner.tscn" id="1_cpgvk"]
-[ext_resource type="PackedScene" uid="uid://i2nns2fwmaq6" path="res://player.tscn" id="1_yqdra"]
+[ext_resource type="Script" path="res://scripts/player/player_spawner_manager.gd" id="1_veg4i"]
+[ext_resource type="PackedScene" uid="uid://cck7clkc37xiy" path="res://objects/player_spawner.tscn" id="2_mhkba"]
+[ext_resource type="PackedScene" path="res://objects/player.tscn" id="3_v60qv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pcgxl"]
 size = Vector2(1200, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ymfw"]
 size = Vector2(20, 700)
-
-[sub_resource type="GDScript" id="GDScript_7h73n"]
-script/source = "extends Node
-
-var devices : Array = []
-
-func _input(event):
-	if event.is_action_pressed(\"spawn\"):
-		if devices.has(event.get_device()):
-			return
-		
-		devices.append(event.get_device())
-		for spawner in get_children():
-			if not spawner.has_spawned():
-				spawner.spawn(event.get_device())
-				return
-"
 
 [node name="TestWorld" type="Node2D"]
 
@@ -59,30 +43,44 @@ shape = SubResource("RectangleShape2D_3ymfw")
 [node name="Camera2D" type="Camera2D" parent="Backgound"]
 
 [node name="Spawners" type="Node2D" parent="."]
-script = SubResource("GDScript_7h73n")
+script = ExtResource("1_veg4i")
 
-[node name="PlayerSpawner" parent="Spawners" instance=ExtResource("1_cpgvk")]
+[node name="PlayerSpawner" parent="Spawners" instance=ExtResource("2_mhkba")]
 position = Vector2(-50, -50)
 player_container = NodePath("../../Players")
-player_scene = ExtResource("1_yqdra")
+player_scene = ExtResource("3_v60qv")
 player_color = Color(1, 1, 1, 1)
 
-[node name="PlayerSpawner2" parent="Spawners" instance=ExtResource("1_cpgvk")]
+[node name="PlayerSpawner2" parent="Spawners" instance=ExtResource("2_mhkba")]
 position = Vector2(50, -50)
 player_container = NodePath("../../Players")
-player_scene = ExtResource("1_yqdra")
+player_scene = ExtResource("3_v60qv")
 player_color = Color(1, 0.419608, 0.415686, 1)
 
-[node name="PlayerSpawner3" parent="Spawners" instance=ExtResource("1_cpgvk")]
+[node name="PlayerSpawner3" parent="Spawners" instance=ExtResource("2_mhkba")]
 position = Vector2(-50, 50)
 player_container = NodePath("../../Players")
-player_scene = ExtResource("1_yqdra")
+player_scene = ExtResource("3_v60qv")
 player_color = Color(0.329412, 0.596078, 0, 1)
 
-[node name="PlayerSpawner4" parent="Spawners" instance=ExtResource("1_cpgvk")]
+[node name="PlayerSpawner4" parent="Spawners" instance=ExtResource("2_mhkba")]
 position = Vector2(50, 50)
 player_container = NodePath("../../Players")
-player_scene = ExtResource("1_yqdra")
+player_scene = ExtResource("3_v60qv")
 player_color = Color(0.764706, 0.537255, 0, 1)
 
 [node name="Players" type="Node2D" parent="."]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Instructions" type="RichTextLabel" parent="HUD"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -46.0
+offset_right = 423.0
+grow_vertical = 0
+text = "Spawn - Start
+Movement - Left Stick/DPad
+Vibration - A(XBox)/X(PS)"
+fit_content = true

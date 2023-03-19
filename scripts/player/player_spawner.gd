@@ -1,7 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://cck7clkc37xiy"]
-
-[sub_resource type="GDScript" id="GDScript_b5har"]
-script/source = "extends Node
+extends Node
 
 @export
 var player_container : NodePath
@@ -26,7 +23,3 @@ func spawn(device_id : int):
 
 func has_spawned() -> bool:
 	return player != null
-"
-
-[node name="PlayerSpawner" type="Marker2D"]
-script = SubResource("GDScript_b5har")
