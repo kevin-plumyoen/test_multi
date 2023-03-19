@@ -1,0 +1,88 @@
+[gd_scene load_steps=6 format=3 uid="uid://lp2muq3kihi3"]
+
+[ext_resource type="PackedScene" uid="uid://cck7clkc37xiy" path="res://player_spawner.tscn" id="1_cpgvk"]
+[ext_resource type="PackedScene" uid="uid://i2nns2fwmaq6" path="res://player.tscn" id="1_yqdra"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pcgxl"]
+size = Vector2(1200, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ymfw"]
+size = Vector2(20, 700)
+
+[sub_resource type="GDScript" id="GDScript_7h73n"]
+script/source = "extends Node
+
+var devices : Array = []
+
+func _input(event):
+	if event.is_action_pressed(\"spawn\"):
+		if devices.has(event.get_device()):
+			return
+		
+		devices.append(event.get_device())
+		for spawner in get_children():
+			if not spawner.has_spawned():
+				spawner.spawn(event.get_device())
+				return
+"
+
+[node name="TestWorld" type="Node2D"]
+
+[node name="Backgound" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Backgound"]
+offset_left = -2000.0
+offset_top = -2000.0
+offset_right = -1960.0
+offset_bottom = -1960.0
+scale = Vector2(100, 100)
+color = Color(0.439216, 0.368627, 0.294118, 1)
+
+[node name="Walls" type="StaticBody2D" parent="Backgound"]
+
+[node name="North" type="CollisionShape2D" parent="Backgound/Walls"]
+position = Vector2(0, -335)
+shape = SubResource("RectangleShape2D_pcgxl")
+
+[node name="South" type="CollisionShape2D" parent="Backgound/Walls"]
+position = Vector2(0, 335)
+shape = SubResource("RectangleShape2D_pcgxl")
+
+[node name="West" type="CollisionShape2D" parent="Backgound/Walls"]
+position = Vector2(-585, 0)
+shape = SubResource("RectangleShape2D_3ymfw")
+
+[node name="East" type="CollisionShape2D" parent="Backgound/Walls"]
+position = Vector2(585, 0)
+shape = SubResource("RectangleShape2D_3ymfw")
+
+[node name="Camera2D" type="Camera2D" parent="Backgound"]
+
+[node name="Spawners" type="Node2D" parent="."]
+script = SubResource("GDScript_7h73n")
+
+[node name="PlayerSpawner" parent="Spawners" instance=ExtResource("1_cpgvk")]
+position = Vector2(-50, -50)
+player_container = NodePath("../../Players")
+player_scene = ExtResource("1_yqdra")
+player_color = Color(1, 1, 1, 1)
+
+[node name="PlayerSpawner2" parent="Spawners" instance=ExtResource("1_cpgvk")]
+position = Vector2(50, -50)
+player_container = NodePath("../../Players")
+player_scene = ExtResource("1_yqdra")
+player_color = Color(1, 0.419608, 0.415686, 1)
+
+[node name="PlayerSpawner3" parent="Spawners" instance=ExtResource("1_cpgvk")]
+position = Vector2(-50, 50)
+player_container = NodePath("../../Players")
+player_scene = ExtResource("1_yqdra")
+player_color = Color(0.329412, 0.596078, 0, 1)
+
+[node name="PlayerSpawner4" parent="Spawners" instance=ExtResource("1_cpgvk")]
+position = Vector2(50, 50)
+player_container = NodePath("../../Players")
+player_scene = ExtResource("1_yqdra")
+player_color = Color(0.764706, 0.537255, 0, 1)
+
+[node name="Players" type="Node2D" parent="."]

@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://cck7clkc37xiy"]
+
+[sub_resource type="GDScript" id="GDScript_b5har"]
+script/source = "extends Node
+
+@export
+var player_container : NodePath
+
+@export
+var player_scene : PackedScene
+
+@export
+var player_color : Color
+
+var player : Node
+
+func spawn(device_id : int):
+	if has_spawned():
+		return
+	
+	player = player_scene.instantiate()
+	player.global_position = self.global_position
+	player.set_color(player_color)
+	player.controller_id = device_id
+	get_node(player_container).add_child(player)
+
+func has_spawned() -> bool:
+	return player != null
+"
+
+[node name="PlayerSpawner" type="Marker2D"]
+script = SubResource("GDScript_b5har")
